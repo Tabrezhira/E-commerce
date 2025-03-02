@@ -7,3 +7,14 @@
   font-optical-sizing: auto;
   font-size: normal ;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* Custom scrollbar */
+.scrollbar-custom::-webkit-scrollbar {
+  height: 6px; /* Thin scrollbar */
+  background: transparent; /* Makes it blend subtly */
+}
