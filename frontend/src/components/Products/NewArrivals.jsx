@@ -149,8 +149,6 @@ function NewArrivals() {
             container.addEventListener('scroll', updateScrollButtons)
             updateScrollButtons()
             return() => container.removeEventListener('scroll', updateScrollButtons)
-     
-
         }
     },[])
   return (
