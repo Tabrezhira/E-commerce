@@ -41,7 +41,7 @@ function Checkout() {
     }
 
     const handlePaymentSuccess = (details) => {
-        console.log('Payment Successful', details);
+        // console.log('Payment Successful', details);
         navigate('/order-confirmation')
     }
   return (
