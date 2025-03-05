@@ -8,7 +8,7 @@ import FeaturedCollection from '../components/Products/FeaturedCollection'
 import FeaturesSection from '../components/Products/FeaturesSection'
 
 const placeholderProducts = [
-  {
+{
     _id:1,
     name:"Product 1",
     price:100,
