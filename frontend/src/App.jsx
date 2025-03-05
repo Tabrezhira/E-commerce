@@ -12,6 +12,7 @@ import Checkout from './components/Cart/Checkout';
 import OrderConfirmationPage from './pages/OrderConfirmationPage';
 import OrderDetailsPages from './pages/OrderDetailsPages';
 import MyOrdersPage from './pages/MyOrdersPage';
+import AdminLayout from './components/Admin/AdminLayout';
 
 function App() {
 
@@ -36,7 +37,7 @@ function App() {
       
       
       
-      <Route>{/* Admin Layout*/ }</Route>
+      <Route path='/admin' element={<AdminLayout/>} >{/* Admin Layout*/ }</Route>
     </Routes>
     </BrowserRouter>
     </>
