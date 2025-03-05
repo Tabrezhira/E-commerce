@@ -13,6 +13,7 @@ import OrderConfirmationPage from './pages/OrderConfirmationPage';
 import OrderDetailsPages from './pages/OrderDetailsPages';
 import MyOrdersPage from './pages/MyOrdersPage';
 import AdminLayout from './components/Admin/AdminLayout';
+import AdminHome from './components/Admin/AdminHome';
 
 function App() {
 
@@ -37,7 +38,9 @@ function App() {
       
       
       
-      <Route path='/admin' element={<AdminLayout/>} >{/* Admin Layout*/ }</Route>
+      <Route path='/admin' element={<AdminLayout/>} >
+        <Route index element={<AdminHome/>}/>
+      </Route>
     </Routes>
     </BrowserRouter>
     </>
