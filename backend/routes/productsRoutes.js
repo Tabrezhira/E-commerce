@@ -236,8 +236,6 @@ router.get('/new-arrivals',async(req, res)=>{
 })
 
 
-
-
 //@route GET /api/products/:id
 //@desc Get a single product by ID
 //@access Public
