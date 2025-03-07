@@ -13,13 +13,13 @@ router.post('/', protect,admin, async (req, res) => {
     try {
         const {
             name, description, price, discountPrice, countInStock,
-            category, brand, size, colors, collections, material,
+            category, brand, sizes, colors, collections, material,
             gender, images, isFeatured, isPublished, tags,
             dimensions, weight, sku
         } = req.body;
 
         // Validation: Ensure required fields are provided
-        if (!name || !description || !sku || !category || !size || !colors || !collections) {
+        if (!name || !description || !sku || !category || !sizes || !colors || !collections) {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
@@ -32,7 +32,7 @@ router.post('/', protect,admin, async (req, res) => {
             countInStock,
             category,
             brand,
-            size,
+            sizes,
             colors,
             collections,
             material,

@@ -31,7 +31,7 @@ const productSchema = new mongoose.Schema({
     brand:{
         type: String
     },
-    size:{
+    sizes:{
         type:[String],
         required:true
     },
