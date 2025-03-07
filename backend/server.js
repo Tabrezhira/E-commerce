@@ -5,6 +5,7 @@ const app = express()
 const connectDB = require('./config/db')
 const userRoutes = require('./routes/userRoutes')
 const productRoutes = require('./routes/productsRoutes')
+const cartRoutes = require('./routes/cartRoutes')
 app.use(express.json())
 app.use(cors())
 
@@ -26,6 +27,7 @@ app.get('/', (req,res) => {
 
 app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)
+app.use('/api/cart', cartRoutes)
 
 
 app.listen(Port,()=>{
