@@ -7,6 +7,7 @@ const userRoutes = require('./routes/userRoutes')
 const productRoutes = require('./routes/productsRoutes')
 const cartRoutes = require('./routes/cartRoutes')
 const checkoutRoutes = require('./routes/checkoutRoutes')
+const orderRoutes = require('./routes/orderRoutes')
 app.use(express.json())
 app.use(cors())
 
@@ -30,6 +31,7 @@ app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/cart', cartRoutes)
 app.use('/api/checkout', checkoutRoutes)
+app.use('/api/orders', orderRoutes)
 
 
 app.listen(Port,()=>{
