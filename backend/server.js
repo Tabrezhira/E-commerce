@@ -10,6 +10,7 @@ const checkoutRoutes = require('./routes/checkoutRoutes')
 const orderRoutes = require('./routes/orderRoutes')
 const uploadRoutes = require('./routes/uploadRoutes')
 const subscriberRoutes = require('./routes/subscriberRoute')
+const adminRoutes = require('./routes/adminRoutes')
 app.use(express.json())
 app.use(cors())
 
@@ -36,6 +37,8 @@ app.use('/api/checkout', checkoutRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/subscribe', subscriberRoutes)
+
+app.use('/api/admin/users', adminRoutes)
 
 app.listen(Port,()=>{
     console.log(`Server is running on http://localhost:${Port}`)
