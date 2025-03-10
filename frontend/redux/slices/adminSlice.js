@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit"
 import axios from "axios";
-import { act } from "react";
+
 
 // fetch all users (admin only)
 export const fetchUsers = createAsyncThunk('admin/fetchUsers',async () =>{

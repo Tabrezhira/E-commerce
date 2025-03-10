@@ -39,7 +39,7 @@ export const updateOrderStatus = createAsyncThunk('adminOrders/updateOrderStatus
 
 // Delete an order
 
-export const deleteOrder = createAsyncThunk('adminOrders/updateOrderStatus',async(id,{rejectWithValue}) => {
+export const deleteOrder = createAsyncThunk('adminOrders/deleteOrder',async(id,{rejectWithValue}) => {
     try {
        await axios.delete(
             `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders`,
@@ -89,12 +89,12 @@ const adminOrderSlice = createSlice({
         })
         // Update Order Status
         .addCase(updateOrderStatus.fulfilled,(state, action) =>{
-            const updateOrder = action.payload;
+            const updatedOrder = action.payload;
             const orderIndex = state.orders.findIndex(
                 (order) => order._id === updatedOrder._id
             );
             if(orderIndex !== -1){
-                state.orders[orderIndex] = updateOrder
+                state.orders[orderIndex] = updatedOrder
             }
         })
         // Delete Order

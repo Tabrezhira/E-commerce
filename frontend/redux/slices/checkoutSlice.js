@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit"
 import axios from "axios";
-import Checkout from "../../src/components/Cart/Checkout";
+
 
 
 // Async thunk to create a checkout session
