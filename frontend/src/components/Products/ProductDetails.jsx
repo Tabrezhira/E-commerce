@@ -1,64 +1,89 @@
 import React, { useEffect, useState } from 'react'
-import { useFetcher } from 'react-router-dom'
+import { useFetcher, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import ProductsGrid from './ProductsGrid'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchProductDetails,fetchSimilarProducts } from "../../../redux/slices/productSlice"; // Adjust path if needed
+import { addToCart } from "../../../redux/slices/cartSlice";
+// const selectedProduct = {
+//     name: 'Stylish Jacket',
+//     price: 120,
+//     originalPrice:150,
+//     description:"THis is a stylish jacket perfect for any occasion",
+//     brand:'FashionBrand',
+//     material:'Leather',
+//     sizes:['S','M', "L","XL"],
+//     colors:["Red", "Green"],
+//     images:[{  
+//         url:'https://picsum.photos/500/500?random=1',
+//         altText:"Stylish Jacket 1"
+//     },
+//     {  
+//         url:'https://picsum.photos/500/500?random=2',
+//         altText:"Stylish Jacket 1"
+//     },
+// ]
+// }
+// const similarProduct = [
+//     {
+//         _id:1,
+//         name:"Product 1",
+//         price:100,
+//         images:[{url:'https://picsum.photos/500/500?random=3'}]
+//     },
+//     {
+//         _id:1,
+//         name:"Product 2",
+//         price:100,
+//         images:[{url:'https://picsum.photos/500/500?random=4'}]
+//     },
+//     {
+//         _id:1,
+//         name:"Product 3",
+//         price:100,
+//         images:[{url:'https://picsum.photos/500/500?random=5'}]
+//     },
+//     {
+//         _id:1,
+//         name:"Product 4",
+//         price:100,
+//         images:[{url:'https://picsum.photos/500/500?random=6'}]
+//     }
+// ]
 
-const selectedProduct = {
-    name: 'Stylish Jacket',
-    price: 120,
-    originalPrice:150,
-    description:"THis is a stylish jacket perfect for any occasion",
-    brand:'FashionBrand',
-    material:'Leather',
-    sizes:['S','M', "L","XL"],
-    colors:["Red", "Green"],
-    images:[{  
-        url:'https://picsum.photos/500/500?random=1',
-        altText:"Stylish Jacket 1"
-    },
-    {  
-        url:'https://picsum.photos/500/500?random=2',
-        altText:"Stylish Jacket 1"
-    },
-]
-}
-const similarProduct = [
-    {
-        _id:1,
-        name:"Product 1",
-        price:100,
-        images:[{url:'https://picsum.photos/500/500?random=3'}]
-    },
-    {
-        _id:1,
-        name:"Product 2",
-        price:100,
-        images:[{url:'https://picsum.photos/500/500?random=4'}]
-    },
-    {
-        _id:1,
-        name:"Product 3",
-        price:100,
-        images:[{url:'https://picsum.photos/500/500?random=5'}]
-    },
-    {
-        _id:1,
-        name:"Product 4",
-        price:100,
-        images:[{url:'https://picsum.photos/500/500?random=6'}]
-    }
-]
 
-function ProductDetails() {
+function ProductDetails({productId}) {
+    const {id} = useParams()
+    const dispatch = useDispatch()
+    const {selectedProduct, loading, error, similarProducts} = useSelector(
+        (state) => state.products
+    );
+    const {user, guestId} = useSelector((state) => state.auth)
     const [mainImage, setMainImage] = useState('')
     const [SelectSize, setSelectedSize] = useState('')
     const [selectedColor, setSelectedColor] = useState('')
     const [quantity, setQuantity] = useState(1)
     const[isButtonDisabled, setIsButtonDisable] = useState(false)
+
+    const productFetchId = productId || id;
+
+    useEffect(() => {
+        if(productFetchId){
+            dispatch(fetchProductDetails(productFetchId))
+            dispatch(fetchSimilarProducts({id:productFetchId}))
+        }
+    },[productFetchId])
     const handleQuantityChange = (action) =>{
         if(action === 'plus') setQuantity((prev) => prev + 1)
         if(action === 'minus' && quantity > 1)  setQuantity((prev) => prev - 1)
     }
+
+    useEffect(() => {
+        if(selectedProduct?.images?.length > 0){
+            setMainImage(selectedProduct.images[0].url)
+        }
+    },[selectedProduct])
+
     const handleAddToCart = () => {
         if(!selectedColor || !SelectSize){
             toast.error('Please select a size and color before adding to cart.',{
@@ -66,29 +91,55 @@ function ProductDetails() {
             });
             return
         }
+
         setIsButtonDisable(true);
 
-        setTimeout(() => {
-            toast.success('Product added to cart!',{
-                duration:1000
+        dispatch(
+            addToCart({
+                productId: productFetchId,
+                quantity,
+                size:SelectSize,
+                color:selectedColor,
+                guestId,
+                userId: user?._id
+            }))
+            .then(() => {
+                toast.success('Product added to cart',{
+                    duration: 1000
+                });
             })
-            setIsButtonDisable(false)
-        }, 500)
-    }
-    useEffect(() => {
-        if(selectedProduct?.images?.length > 0){
-            setMainImage(selectedProduct.images[0].url)
-        }
-    },[selectedProduct])
+            .finally(() =>{
+                setIsButtonDisable(false)
+            })
+        
 
+        // setTimeout(() => {
+        //     toast.success('Product added to cart!',{
+        //         duration:1000
+        //     })
+        //     setIsButtonDisable(false)
+        // }, 500)
+    }
+
+
+    if(loading) {
+        return <p>Loading...</p>
+    }
+    if(error) {
+        return <p> Error:{error}</p>
+    }
+
+// console.log(similarProduct)
   return (
    
     <div className='p-6'>
+        {selectedProduct && (
         <div className='max-w-6xl mx-auto bg-white p-8 rounded-lg'>
             <div className='flex flex-col md:flex-row'>
                      {/* Left Thumbnils */}
                      <div className='hidden md:flex flex-col space-y-4 mr-6'> 
                      {selectedProduct.images.map((image, index) => (
+                        // console.log(image.url)
                     <img key={index} src={image.url} alt={image.altText || `Thumbnail ${index}`}
                         className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${mainImage === image.url ? ' border-black' : 'border-gray-300'}`}
                         onClick={() => setMainImage(image.url) }
@@ -99,7 +150,7 @@ function ProductDetails() {
                      {/* Main Image */}
                      <div className='md:w-1/2'>
                         <div className='mb-4'>
-                            <img src={mainImage} alt="Main Product"  className='w-full h-auto object-cover rounded-lg'/>
+                            <img src={mainImage || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBgCPQmyPHrOWxnUvbmQIRwOipjW8woZUreA&s"} alt="Main Product"  className='w-full h-auto object-cover rounded-lg'/>
                         </div>
                      </div>
                 {/* Mobile Thumbnail */}
@@ -179,9 +230,10 @@ function ProductDetails() {
             <h2 className=' text-2xl text-center font-med mb-4'>
                 You May Also Like
             </h2>
-            <ProductsGrid product={similarProduct}/>
+            <ProductsGrid products={similarProducts} loading={loading} error={error} />
             </div>
         </div>
+        )}
     </div>
   )
 }

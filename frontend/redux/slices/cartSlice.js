@@ -31,7 +31,7 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async({userId, guest
 // Add an item to the cart for a user or guest
 export const addToCart = createAsyncThunk('cart/addToCart', async({productId, quantity, size, color, guestId, userId}, {rejectWithValue})=>{
     try {
-        const response = await axios.post(`${import.meta.VITE_BACKEND_URL}/api/cart`,{
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/cart`,{
             productId,
             quantity,
             size,
@@ -39,6 +39,7 @@ export const addToCart = createAsyncThunk('cart/addToCart', async({productId, qu
             guestId,
             userId,
         })
+        console.log(response.data)
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -87,7 +88,7 @@ export const mergeCart = createAsyncThunk('cart/mergeCart', async({guestId, user
 })
 
 const cartSlice = createSlice({
-    name:'caart',
+    name:'cart',
     initialState:{
         cart: loadCartFromStorage(),
         loading:false,
@@ -128,6 +129,7 @@ const cartSlice = createSlice({
         })
         .addCase(addToCart.rejected,(state, action) =>{
             state.loading = false;
+            // console.log(action.payload?.message)
             state.error = action.payload?.message || "Failed to add to cart"
         })
 

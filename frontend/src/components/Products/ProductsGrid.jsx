@@ -1,10 +1,26 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function ProductsGrid({product}) {
+function ProductsGrid({products,loading,error}) {
+  if(loading){
+    return <p>Loading...</p>
+  }
+
+  if(error){
+    return <p>Error:{error}</p>
+  }
+
+  if (!products || !Array.isArray(products)) {
+    return <div>No products available</div>;
+  }
+
+
+
+
   return (
     <div className=' grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
-      {product.map((product, index)=>(
+      {products.map((product, index)=>(
+        //  console.log(products,index)
         <Link key={index} to={`/product/${product._id}`} className='block'>
           <div className='bg-white p-4 rounded-lg'>
             <div className='w-full h-96 mb-4'>

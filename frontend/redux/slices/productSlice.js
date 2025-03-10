@@ -18,19 +18,19 @@ export const fetchProductsByFilters = createAsyncThunk(
         brand,
         limit,
     }) => {
-        const query = newURLSearchParams()
+        const query = new URLSearchParams()
         if(collection) query.append("collection", collection)
-        if(size) query.append("collection", size)
-        if(color) query.append("collection", color)
-        if(gender) query.append("collection", gender)
-        if(minPrice) query.append("collection", minPrice)
-        if(maxPrice) query.append("collection", maxPrice)
-        if(sortBy) query.append("collection", sortBy)
-        if(search) query.append("collection", search)
-        if(category) query.append("collection", category)
-        if(material) query.append("collection", material)
-        if(brand) query.append("collection", brand)
-        if(limit) query.append("collection", limit)
+            if (size) query.append("size", size); // ✅ Correct key
+        if (color) query.append("color", color); // ✅ Correct key
+        if (gender) query.append("gender", gender); // ✅ Correct key
+        if (minPrice) query.append("minPrice", minPrice); // ✅ Correct key
+        if (maxPrice) query.append("maxPrice", maxPrice); // ✅ Correct key
+        if (sortBy) query.append("sortBy", sortBy); // ✅ Correct key
+        if (search) query.append("search", search); // ✅ Correct key
+        if (category) query.append("category", category); // ✅ Correct key
+        if (material) query.append("material", material); // ✅ Correct key
+        if (brand) query.append("brand", brand); // ✅ Correct key
+        if (limit) query.append("limit", limit); // ✅ Correct key
         
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products?${query.toString()}`)
         return response.data
@@ -40,7 +40,9 @@ export const fetchProductsByFilters = createAsyncThunk(
 // Async thunk to fetch a single product by Id
 
 export const fetchProductDetails = createAsyncThunk('products/fetchProductDetails', async (id) => {
+    // console.log(id)
     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`);
+    // console.log(response.data)
     return response.data
 }) 
 
@@ -162,7 +164,8 @@ const productsSlice = createSlice({
         })
         .addCase(fetchSimilarProducts.fulfilled,(state, action) => {
             state.loading = false;
-            state.products = action.payload
+            state.similarProducts = action.payload
+
         })
         .addCase(fetchSimilarProducts.rejected,(state, action) => {
             state.loading = false;
