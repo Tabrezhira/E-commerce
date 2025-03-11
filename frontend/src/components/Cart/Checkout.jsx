@@ -80,7 +80,7 @@ function Checkout() {
                     }
                 }
             )
-            console.log(response)
+            console.log(response.status)
             if(response.status === 200) {
                 await handleFinalizeCheckout(CheckoutId); // Finalize checkout if payment is successful
             }else{
