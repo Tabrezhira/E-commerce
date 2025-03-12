@@ -24,7 +24,7 @@ export const fetchAllOrders = createAsyncThunk('adminOrders/fetchAllOrders',asyn
 export const updateOrderStatus = createAsyncThunk('adminOrders/updateOrderStatus',async({id, status},{rejectWithValue}) => {
     try {
         const response = await axios.put(
-            `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders`,{status},
+            `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,{status},
             {
                 headers:{
                     Authorization: `Bearer ${localStorage.getItem('userToken')}`
