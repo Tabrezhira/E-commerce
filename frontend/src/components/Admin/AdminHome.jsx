@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { fetchAdminProducts } from '../../../redux/slices/adminProductSlice';
 import { fetchAllOrders } from '../../../redux/slices/adminOrderSlice';
 
+
 function AdminHome() {
 //     const orders = [
 // {        _id: 123123,
@@ -52,7 +53,7 @@ function AdminHome() {
 
 const dispatch = useDispatch();
 
-const {product, loading:productsLoading, error: productsError} = useSelector((state) => state.adminProduct);
+const {products, loading:productsLoading, error: productsError} = useSelector((state) => state.adminProduct);
 const {orders, totalOrders, totalSales, loading: ordersLoading, error:orderError} = useSelector((state) => state.adminOrders)
 useEffect(() => {
     dispatch(fetchAdminProducts())
@@ -77,7 +78,7 @@ useEffect(() => {
             </div>
             <div className='p-4 shadow-md rounded-lg'>
             <h2 className='text-xl font-semibold'>Total Products</h2>
-            <p className='text-2xl'>{product.length}</p>
+            <p className='text-2xl'>{products?.length}</p>
             <Link to='/admin/products' className='text-blue-500 hover:underline'>Manage Products</Link>
             </div>
         </div>
