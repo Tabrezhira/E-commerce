@@ -1,17 +1,25 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { FaUser } from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
 import { FaBoxOpen } from "react-icons/fa";
 import { FaClipboardList } from "react-icons/fa";
 import { FaStore } from "react-icons/fa";
 import { FaSignOutAlt } from "react-icons/fa";
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../redux/slices/authSlice';
+import { clearCart } from '../../../redux/slices/cartSlice';
 
 function AdminSidebar() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const handleLogout = ( ) => {
+        dispatch(logout())
+        dispatch(clearCart())
         navigate('/')
     }
+
+
   return (
     <div className='p-6'>
         <div className="mb-6">

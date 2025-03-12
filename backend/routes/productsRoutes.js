@@ -4,6 +4,7 @@ const Product = require('../models/Product');
 const { protect, admin } = require('../middleware/authMiddleware');
 
 
+
 //@route POST /api/products
 //@desc Create a new Product
 //@access Private/Admin
