@@ -1,48 +1,61 @@
 import  { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { fetchUserOrders } from '../../redux/slices/orderSlice'
 
 function MyOrdersPage() {
-    const [orders, setOrders] = useState([])
+    // const [orders, setOrders] = useState([])
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const {orders, loading, error} = useSelector((state) => state.orders)
+
+    // useEffect(() => {
+    //     //Simulate fetching orders
+    //    setTimeout(() => {
+    //     const morkOrders = [
+    //         {
+    //             _id:'12345',
+    //             createdAt: new Date(),
+    //             shippingAddress:{city:"New York", country:'USA'},
+    //             orderItems:[
+    //                 {
+    //                     name:'Product 1',
+    //                     image:'https://picsum.photos/500/500?rondom=1'
+    //                 }
+    //             ],
+    //             totalPrice:100,
+    //             isPaid:true,
+    //         },
+    //         {
+    //             _id:'23456',
+    //             createdAt: new Date(),
+    //             shippingAddress:{city:"New York", country:'USA'},
+    //             orderItems:[
+    //                 {
+    //                     name:'Product 1',
+    //                     image:'https://picsum.photos/500/500?rondom=2'
+    //                 }
+    //             ],
+    //             totalPrice:200,
+    //             isPaid:false,
+    //         },
+    //     ]
+    //     setOrders(morkOrders)
+    //    },1000) 
+    // },[])
 
     useEffect(() => {
-        //Simulate fetching orders
-       setTimeout(() => {
-        const morkOrders = [
-            {
-                _id:'12345',
-                createdAt: new Date(),
-                shippingAddress:{city:"New York", country:'USA'},
-                orderItems:[
-                    {
-                        name:'Product 1',
-                        image:'https://picsum.photos/500/500?rondom=1'
-                    }
-                ],
-                totalPrice:100,
-                isPaid:true,
-            },
-            {
-                _id:'23456',
-                createdAt: new Date(),
-                shippingAddress:{city:"New York", country:'USA'},
-                orderItems:[
-                    {
-                        name:'Product 1',
-                        image:'https://picsum.photos/500/500?rondom=2'
-                    }
-                ],
-                totalPrice:200,
-                isPaid:false,
-            },
-        ]
-        setOrders(morkOrders)
-       },1000) 
-    },[])
+        dispatch(fetchUserOrders())
+    },[dispatch])
+
 
     const handleRowClick = (orderId) => {
         navigate(`/order/${orderId}`)
     }
+
+    if(loading) return <p>Loading ...</p>
+    if(error) return <p>Error:{error}</p>
+
 
     return (
         <div className='max-w-7xl mx-auto p-4 sm:p-6'>

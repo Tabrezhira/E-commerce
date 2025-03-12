@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
+import { clearCart } from '../../redux/slices/cartSlice';
 
 // const checkout = {
 //     _id:'12323',
