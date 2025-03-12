@@ -44,6 +44,6 @@ app.use('/api/admin/users', adminRoutes)
 app.use('/api/admin/products', productRoutes)
 app.use('/api/admin/orders', ordersRoutes)
 
-app.listen(Port,()=>{
-    console.log(`Server is running on http://localhost:${Port}`)
-})
+// app.listen(Port,()=>{
+//     console.log(`Server is running on http://localhost:${Port}`)
+// })
