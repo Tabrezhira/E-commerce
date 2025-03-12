@@ -66,7 +66,7 @@ router.put('/:id',protect,admin, async(req,res)=>{
     try {
         const {
             name, description, price, discountPrice, countInStock,
-            category, brand, size, colors, collections, material,
+            category, brand, sizes, colors, collections, material,
             gender, images, isFeatured, isPublished, tags,
             dimensions, weight, sku
         } = req.body;
@@ -86,7 +86,7 @@ router.put('/:id',protect,admin, async(req,res)=>{
          product.countInStock = countInStock || product.countInStock;
          product.category = category || product.category;
          product.brand = brand || product.brand;
-         product.size = size || product.size;
+         product.sizes = sizes || product.sizes;
          product.colors = colors || product.colors;
          product.collections = collections || product.collections;
          product.material = material || product.material;

@@ -30,17 +30,18 @@ export const createProduct = createAsyncThunk("adminProducts/createProduct", asy
 
 // async thunk to update an existing product
 
-export const updateProduct = createAsyncThunk('adminProducts/updateProduct', async({id, productData}) =>{
+export const updateProduct = createAsyncThunk('adminProducts/updateProduct', async({id, productData}, { rejectWithValue }) =>{
+
     const response = await axios.put(`${API_URL}/api/admin/products/${id}`,productData,{
         headers:{
             Authorization:USER_TOKEN,
         },
     })
+    console.log(response.data)
     return response.data;
 })
 
 // async thunk to delete a product
-
 export const deleteProduct = createAsyncThunk('adminProduct/deleteProduct', async(id) =>{
     await axios.delete(`${API_URL}/api/admin/products/${id}`,{
         headers:{Authorization: USER_TOKEN}
@@ -52,7 +53,7 @@ export const deleteProduct = createAsyncThunk('adminProduct/deleteProduct', asyn
 const adminProductSlice = createSlice({
     name:'adminProducts',
     initialState:{
-        product:[],
+        products:[],
         loading:false,
         error:null
     },
@@ -64,7 +65,7 @@ const adminProductSlice = createSlice({
         })
         .addCase(fetchAdminProducts.fulfilled, (state, action) => {
             state.loading = false;
-            state.product =action.payload
+            state.products =action.payload
         })
         .addCase(fetchAdminProducts.rejected, (state, action) => {
             state.loading = false;
@@ -73,7 +74,7 @@ const adminProductSlice = createSlice({
 
         // Create Product
         .addCase(createProduct.fulfilled,(state, action)=>{
-            state.product.push(action.payload)
+            state.products.push(action.payload)
         })
         // Update Product
         .addCase(updateProduct.fulfilled, (state, action) => {
@@ -81,12 +82,12 @@ const adminProductSlice = createSlice({
                 (product) => product._id === action.payload._id
             )
             if(index !== -1){
-                state.product[index] = action.payload
+                state.products[index] = action.payload
             }
         })
         // Delete Product
         .addCase(deleteProduct.fulfilled, (state,action) => {
-            state.products = state.product.filter(
+            state.products = state.products.filter(
                 (product) => product._id !== action.payload
             )
         })
