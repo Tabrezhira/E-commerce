@@ -10,18 +10,18 @@ export const fetchUsers = createAsyncThunk('admin/fetchUsers',async () =>{
             headers:{Authorization:`Bearer ${localStorage.getItem('userToken')}`},
         }
     )
-    response.data;
+    return response.data;
 })
 
 //Add the create user action
-export const addUser = createAsyncThunk('admin/addUser',async (useRouteLoaderData, {rejectWithValue}) =>{
+export const addUser = createAsyncThunk('admin/addUser',async (userData, {rejectWithValue}) =>{
     try {
         const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,userData,{
             headers:{
                 Authorization:`Bearer ${localStorage.getItem('userToken')}`
             }
         })
-        return response.data
+        return response.data.user
     } catch (error) {
         return rejectWithValue(error.response.data)
     }
@@ -30,7 +30,7 @@ export const addUser = createAsyncThunk('admin/addUser',async (useRouteLoaderDat
 // Update user info
 export const updateUser = createAsyncThunk('admin/updateUser', async ({id, name, email, role})=>{
     const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/user/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
         {name,email,role},
         {
             headers:{
@@ -38,7 +38,7 @@ export const updateUser = createAsyncThunk('admin/updateUser', async ({id, name,
             }
         }
     )
-    response.data
+    return response.data
 })
 
 // Delete a user
