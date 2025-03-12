@@ -17,7 +17,7 @@ app.use(express.json())
 app.use(cors())
 
 dotenv.config()
-const Port = process.env.PORT || 3000;
+// const Port = process.env.PORT || 3000;
 // Connect 
 connectDB()
 
